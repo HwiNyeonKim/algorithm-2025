@@ -16,13 +16,14 @@ def solution(progresses, speeds):
         for remaining_progress, speed in zip(remaining_progresses, speeds)
     ]
     remaining_days.append(999_999)  # dummy value
+    remaining_days.reverse()
 
     answer = list()
     count = 1
-    current = remaining_days.pop(0)
+    current = remaining_days.pop()
 
     while remaining_days:
-        next_ = remaining_days.pop(0)
+        next_ = remaining_days.pop()
 
         if current < next_:
             answer.append(count)
