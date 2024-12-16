@@ -1,11 +1,11 @@
 import math
 
-'''
+"""
 Given:
     def solution(progresses, speeds):
         answer = []
         return answer
-'''
+"""
 
 
 def solution(progresses, speeds):

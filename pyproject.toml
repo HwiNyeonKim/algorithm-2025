@@ -9,10 +9,15 @@ readme = "README.md"
 python = "^3.13"
 devtools = "^0.12.2"
 pytest = "^8.3.4"
+autopep8 = "^2.3.1"
+isort = "^5.13.2"
+black = "^24.10.0"
 
 [tool.pytest.ini_options]
 pythonpath = "/Users/hwinyeonkim/Dev/study/algorithm/algorithm"
 
+[tool.poetry.scripts]
+lint = "autopep8 --in-place . && isort . && black ."
 
 [build-system]
 requires = ["poetry-core"]

@@ -1,11 +1,11 @@
 # from collections import deque
 
-'''
+"""
 Default Given:
     def solution(arr):
         answer = []
         return answer
-'''
+"""
 
 
 def solution(arr):
