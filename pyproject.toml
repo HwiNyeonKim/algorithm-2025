@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "algorithm"
+version = "0.1.0"
+description = ""
+authors = ["HwiNyeonKim <z2b23173us@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.13"
+devtools = "^0.12.2"
+pytest = "^8.3.4"
+
+[tool.pytest.ini_options]
+pythonpath = "/Users/hwinyeonkim/Dev/study/algorithm/algorithm"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
