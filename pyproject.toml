@@ -17,7 +17,7 @@ black = "^24.10.0"
 pythonpath = "/Users/hwinyeonkim/Dev/study/algorithm/algorithm"
 
 [tool.poetry.scripts]
-lint = "autopep8 --in-place . && isort . && black ."
+lint = "autopep8 --in-place **/*.py && isort **/*.py && black **.*.py"
 
 [build-system]
 requires = ["poetry-core"]
