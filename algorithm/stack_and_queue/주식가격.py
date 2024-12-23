@@ -1,20 +1,22 @@
 def solution(prices):
-    # Trial #1 : Failed (Timed out)
-    index = 1
-    answer = [0]
+    answer = [0] * len(prices)
+    stack = list()  # 가격 하락이 발생하지 않은 주식 가격의 index만 저장
 
-    while index < len(prices):
-        current_price = prices[-index - 1]
-        next_prices = prices[-index:]
+    for i in range(len(prices)):
+        while stack:
+            last_price = prices[stack[-1]]
+            next_price = prices[i]
 
-        seconds = 0
-        for next_price in next_prices:
-            seconds += 1
-
-            if current_price > next_price:
+            if last_price > next_price:
+                j = stack.pop()
+                answer[j] = i - j
+            else:
                 break
 
-        answer.append(seconds)
-        index += 1
+        stack.append(i)
 
-    return answer[::-1]
+    while stack:
+        index = stack.pop()
+        answer[index] = len(prices) - index - 1
+
+    return answer
