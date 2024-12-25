@@ -1,62 +1,69 @@
-from collections import deque
+import heapq
 
 WALL = 1_000_000
 
 
-def update_distance(route, origin, destination, distance):
-    route[origin][destination] = distance
-    route[destination][origin] = distance
+def dijkstra(n, distance_graph, origin):
+    # Destination -> source로 탐색
+    distances = [WALL] * (n + 1)  # origin에서 각 지역으로의 최단거리 저장
+    distances[origin] = 0
 
+    # [(origin으로부터의 거리, 해당 지역), ...]
+    priority_queue = [(0, origin)]
 
-def rebuild_route(route, origin):
-    destinations = [WALL] * len(route)
+    while priority_queue:
+        # origin에서 가장 가까운 지역부터 담색
+        distance_from_origin, current_destination = heapq.heappop(
+            priority_queue
+        )
 
-    queue = deque([origin])
-    while queue:
-        current_destination = queue.popleft()
-        distance_to_current_destination = route[origin][current_destination]
+        # 이미 더 짧은 경로가 파악되었다면, 이 경로는 더이상 계산하지 않는다
+        if distance_from_origin > distances[current_destination]:
+            continue
 
-        for next_destination, distance_from_current_destination in enumerate(
-            route[current_destination]
-        ):
-            if distance_from_current_destination == WALL:
-                continue
-
-            distance_to_next_destination = (
-                distance_to_current_destination
-                + distance_from_current_destination
+        for (
+            next_destination,
+            distance_to_next_destination_from_current_destination,
+        ) in distance_graph[current_destination]:
+            distance_to_next_destination_from_origin = (
+                distance_from_origin
+                + distance_to_next_destination_from_current_destination
             )
 
-            if distance_to_next_destination < destinations[next_destination]:
-                destinations[next_destination] = distance_to_next_destination
-                update_distance(
-                    route,
-                    origin,
-                    next_destination,
-                    distance_to_next_destination,
+            if (
+                distance_to_next_destination_from_origin
+                < distances[next_destination]
+            ):
+                distances[
+                    next_destination
+                ] = distance_to_next_destination_from_origin
+                heapq.heappush(
+                    priority_queue,
+                    (
+                        distance_to_next_destination_from_origin,
+                        next_destination,
+                    ),
                 )
-                queue.append(next_destination)
+
+    return distances
 
 
 def solution(n, roads, sources, destination):
-    # 가정: turn 개념 X -> 부대 겹침 이슈 X
-    # - 2 <= len(roads) <= 500,000 -> O(n^2)을 피해야 함
+    # 1. Build Initial Graph
+    # index 사용 편의성을 위해 0번을 dummy로
 
-    # 1. Build Map
-    route = [
-        [WALL for _ in range(n + 1)] for _ in range(n + 1)
-    ]  # index 사용 편의성을 위해 0번을 dummy로
+    # 각 지역에서 연결된 지역과의 거리를 저장
+    # index 사용의 편의성을 위해 index 0 은 dummy로 설정
+    distance_graph = [list() for _ in range(n + 1)]
 
-    for origin, dest in roads:
-        update_distance(route, origin, dest, 1)
+    # 2. Initial Setup
+    for start, end in roads:
+        distance_graph[start].append((end, 1))
+        distance_graph[end].append((start, 1))
 
-    # 2. Rebuild Map with origin(=destination)
-    update_distance(route, destination, destination, 0)
-    rebuild_route(route, origin=destination)
+    final_distances = dijkstra(n, distance_graph, destination)
 
     return [
-        -1
-        if route[source][destination] == WALL
-        else route[source][destination]
+        -1 if final_distances[source] == WALL else final_distances[source]
         for source in sources
     ]
