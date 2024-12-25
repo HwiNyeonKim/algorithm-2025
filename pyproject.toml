@@ -13,11 +13,19 @@ autopep8 = "^2.3.1"
 isort = "^5.13.2"
 black = "^24.10.0"
 
+[tool.black]
+target-version = ['py311']
+line-length = 79
+
+[tool.isort]
+profile = "black"
+line_length = 79
+
 [tool.pytest.ini_options]
 pythonpath = "/Users/hwinyeonkim/Dev/study/algorithm/algorithm"
 
 [tool.poetry.scripts]
-lint = "autopep8 --in-place **/*.py && isort **/*.py && black **.*.py"
+lint = "poetry run isort . && poetry run flake8 . && poetry run black ."
 
 [build-system]
 requires = ["poetry-core"]

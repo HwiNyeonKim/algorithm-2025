@@ -23,13 +23,17 @@ def rebuild_route(route, origin):
                 continue
 
             distance_to_next_destination = (
-                distance_to_current_destination + distance_from_current_destination
+                distance_to_current_destination
+                + distance_from_current_destination
             )
 
             if distance_to_next_destination < destinations[next_destination]:
                 destinations[next_destination] = distance_to_next_destination
                 update_distance(
-                    route, origin, next_destination, distance_to_next_destination
+                    route,
+                    origin,
+                    next_destination,
+                    distance_to_next_destination,
                 )
                 queue.append(next_destination)
 
@@ -51,6 +55,8 @@ def solution(n, roads, sources, destination):
     rebuild_route(route, origin=destination)
 
     return [
-        -1 if route[source][destination] == WALL else route[source][destination]
+        -1
+        if route[source][destination] == WALL
+        else route[source][destination]
         for source in sources
     ]

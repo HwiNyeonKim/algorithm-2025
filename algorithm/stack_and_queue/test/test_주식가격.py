@@ -21,7 +21,9 @@ from stack_and_queue import solution_5
         (
             [1] * 50000 + [100000] + [1] * 49999,
             # 테스트 케이스 4: 급상승 후 급하락
-            [99999 - i for i in range(50000)] + [1] + [49998 - i for i in range(49999)],
+            [99999 - i for i in range(50000)]
+            + [1]
+            + [49998 - i for i in range(49999)],
         ),
     ],
 )
