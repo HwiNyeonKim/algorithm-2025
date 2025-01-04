@@ -3,7 +3,7 @@ def solution(targets):
     targets.append([10**8 + 1, 10**8 + 2])
     targets.sort(
         key=lambda target: target[0], reverse=True
-    )  # (s, e) pair에 대해 s로 오름차순
+    )  # (s, e) pair에 대해 s로 내름차순
 
     count = 0
     _, e = targets.pop()  # current_target
