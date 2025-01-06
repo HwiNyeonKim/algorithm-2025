@@ -1,5 +1,6 @@
-from .네트워크 import solution as solution_1
+from .네트워크 import solution_bfs, solution_dfs
 
 __all__ = [
-    "solution_1",
+    "solution_bfs",
+    "solution_dfs",
 ]
