@@ -6,10 +6,8 @@ class Employee:
 
     def settle(self, profit):
         tribute = profit // 10
-
         self.net_profit += profit - tribute
-        if self.referral:
-            self.referral.settle(tribute)
+        return tribute
 
     def get_net_profit(self):
         return self.net_profit
@@ -27,6 +25,13 @@ def solution(enrolls, referrals, sellers, amount_list):
 
     for seller, amount in zip(sellers, amount_list):
         profit = 100 * amount
-        employees[seller].settle(profit)
+
+        employee = employees[seller]
+        tribute = employee.settle(profit)
+
+        referral = employee.referral
+        while referral and tribute:
+            tribute = referral.settle(tribute)
+            referral = referral.referral
 
     return [employees[name].get_net_profit() for name in enrolls]
