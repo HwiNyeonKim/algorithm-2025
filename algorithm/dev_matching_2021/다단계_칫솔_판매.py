@@ -9,15 +9,10 @@ class Employee:
         self.net_profit += profit - tribute
         return tribute
 
-    def get_net_profit(self):
-        return self.net_profit
-
 
 def solution(enrolls, referrals, sellers, amount_list):
     employees = dict()
-
-    minho = Employee("-", None)
-    employees["-"] = minho
+    employees["-"] = Employee("-", None)
 
     for name, referral_name in zip(enrolls, referrals):
         referral = employees[referral_name]
@@ -34,4 +29,4 @@ def solution(enrolls, referrals, sellers, amount_list):
             tribute = referral.settle(tribute)
             referral = referral.referral
 
-    return [employees[name].get_net_profit() for name in enrolls]
+    return [employees[name].net_profit for name in enrolls]
