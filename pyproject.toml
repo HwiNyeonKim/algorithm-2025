@@ -24,9 +24,6 @@ line_length = 79
 [tool.pytest.ini_options]
 pythonpath = "/Users/hwinyeonkim/Dev/study/algorithm/algorithm"
 
-[tool.poetry.scripts]
-lint = "poetry run isort . && poetry run flake8 . && poetry run black ."
-
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
