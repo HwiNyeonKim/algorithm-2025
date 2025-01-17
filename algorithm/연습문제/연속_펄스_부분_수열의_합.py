@@ -1,20 +1,15 @@
+def kandane(sequence, starting_pulse):
+    current_max = sequence[0] * starting_pulse
+    global_max = sequence[0] * starting_pulse
+
+    for index, value in enumerate(sequence[1:], start=1):
+        pulse = starting_pulse if index % 2 == 0 else -starting_pulse
+        partial_sum = value * pulse
+        current_max = max(partial_sum, current_max + partial_sum)
+        global_max = max(global_max, current_max)
+
+    return global_max
+
+
 def solution(sequence):
-    partial_sum = [[0] * len(sequence) for _ in range(len(sequence))]
-
-    pulse = [1, -1] * (len(sequence) // 2) + [1]
-    sequence = [a * b for a, b in zip(sequence, pulse)]
-
-    partial_sum[0][0] = sequence[0]
-    start_index = 0
-    for end_index, number in enumerate(sequence[1:], start=1):
-        noted = partial_sum[start_index][end_index - 1]
-        partial_sum[start_index][end_index] = noted + number
-
-    for start_index, number_1 in enumerate(sequence[1:], start=1):
-        for end_index, number_2 in enumerate(sequence[1:], start=1):
-            partial_sum[start_index][end_index] = (
-                partial_sum[start_index - 1][end_index]
-                - sequence[start_index - 1]
-            )
-
-    return max(abs(num) for row in partial_sum for num in row)
+    return max(kandane(sequence, 1), kandane(sequence, -1))
