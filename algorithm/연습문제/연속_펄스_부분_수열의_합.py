@@ -1,39 +1,20 @@
-from collections import deque
-
-
 def solution(sequence):
-    ranges = list()  # element: index of (start, end)
-    largest_partial_sum = max(sequence, key=abs)
+    partial_sum = [[0] * len(sequence) for _ in range(len(sequence))]
 
-    queue = deque(sequence)
-    index = 0
-    while queue:
-        start_index = index
-        end_index = index
-        current_value = queue.popleft()
+    pulse = [1, -1] * (len(sequence) // 2) + [1]
+    sequence = [a * b for a, b in zip(sequence, pulse)]
 
-        while queue:
-            index += 1
-            next_value = queue.popleft()
+    partial_sum[0][0] = sequence[0]
+    start_index = 0
+    for end_index, number in enumerate(sequence[1:], start=1):
+        noted = partial_sum[start_index][end_index - 1]
+        partial_sum[start_index][end_index] = noted + number
 
-            if current_value * next_value <= 0:
-                end_index = index
-                current_value = next_value
-            else:
-                # 동일 부호
-                queue.appendleft(next_value)
-                break
+    for start_index, number_1 in enumerate(sequence[1:], start=1):
+        for end_index, number_2 in enumerate(sequence[1:], start=1):
+            partial_sum[start_index][end_index] = (
+                partial_sum[start_index - 1][end_index]
+                - sequence[start_index - 1]
+            )
 
-        ranges.append((start_index, end_index))
-
-    for start, end in ranges:
-        numbers = sequence[start : end + 1]
-        pulse = [1, -1] * (len(numbers) // 2) + [1]
-
-        partial_sum = sum([a * b for a, b in zip(numbers, pulse)])
-
-        largest_partial_sum = max(
-            partial_sum, -partial_sum, largest_partial_sum
-        )
-
-    return largest_partial_sum
+    return max(abs(num) for row in partial_sum for num in row)
