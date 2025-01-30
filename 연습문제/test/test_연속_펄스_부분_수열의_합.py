@@ -1,6 +1,6 @@
 import pytest
 
-from algorithm.연습문제 import solution_4
+from 연습문제 import solution_4
 
 
 @pytest.mark.parametrize(

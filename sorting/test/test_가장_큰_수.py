@@ -1,4 +1,5 @@
 import pytest
+
 from sorting import solution_1
 
 

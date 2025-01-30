@@ -1,4 +1,5 @@
 import pytest
+
 from hash import solution_3
 
 
