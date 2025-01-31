@@ -1,10 +1,14 @@
-from copy import deepcopy
-
-
 def place_key(key, total_map, m, i, j):
     for ki in range(m):
         for kj in range(m):
             total_map[i + ki][j + kj] += key[ki][kj]
+    return total_map
+
+
+def unplace_key(key, total_map, m, i, j):
+    for ki in range(m):
+        for kj in range(m):
+            total_map[i + ki][j + kj] -= key[ki][kj]
     return total_map
 
 
@@ -38,8 +42,9 @@ def solution(key, lock):
     for key in keys:
         for i in range(n + m - 1):
             for j in range(n + m - 1):
-                updated_map = place_key(key, deepcopy(total_map), m, i, j)
-                if is_opened(updated_map, n, m):
+                place_key(key, total_map, m, i, j)
+                if is_opened(total_map, n, m):
                     return True
+                unplace_key(key, total_map, m, i, j)
 
     return False
