@@ -1,3 +1,6 @@
+from collections import deque
+
+
 def is_convertable(word_from, word_to):
     diff_count = 0
     for char_from, char_to in zip(word_from, word_to):
@@ -14,25 +17,21 @@ def solution(begin, target, words):
     if target not in words:
         return 0
 
-    current_words = [begin]
-    next_words = list()
+    queue = deque([(0, begin)])  # count to change, changed word
+    checked = set([begin])
 
-    count = 0
-    while current_words:
-        count += 1
+    while queue:
+        count, current_word = queue.popleft()
 
         for word in words:
-            if word in current_words:
+            if word in checked:
                 continue
 
-            for current_word in current_words:
-                if is_convertable(current_word, word):
-                    if word == target:
-                        return count
+            if is_convertable(current_word, word):
+                if word == target:
+                    return count + 1
 
-                    next_words.append(word)
+                queue.append((count + 1, word))
+                checked.add(word)
 
-        current_words = next_words
-        next_words = list()
-
-    return count
+    return 0
