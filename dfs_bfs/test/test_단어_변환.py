@@ -10,6 +10,6 @@ from dfs_bfs import solution_word_transform
         ("hit", "cog", ["hot", "dot", "dog", "lot", "log"], 0),
     ],
 )
-def test_단어_변환(begin, target, words, expected):
+def test_word_transform(begin, target, words, expected):
     answer = solution_word_transform(begin, target, words)
     assert answer == expected
