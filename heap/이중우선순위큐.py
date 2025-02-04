@@ -1,31 +1,46 @@
+import heapq
+from collections import defaultdict
+
+
+def pop(heap, element_counter, sign):
+    while heap and element_counter[sign * heap[0]] == 0:
+        heapq.heappop(heap)
+
+    value = 0
+    if heap:
+        value = sign * heapq.heappop(heap)
+        element_counter[value] -= 1
+
+    return value
+
+
 def solution(operations):
-    values = list()
+    min_heap = list()
+    max_heap = list()
+    element_counter = defaultdict(int)
 
-    count = 0
-    is_sorted = False
+    for operation in operations:
+        if operation.startswith("I"):
+            value = int(operation.split()[1])
 
-    while count < len(operations):
-        operation, value = operations[count].split()
-        count += 1
+            heapq.heappush(min_heap, value)
+            heapq.heappush(max_heap, -value)
+            element_counter[value] += 1
 
-        if operation == "I":
-            values.append(int(value))
-            is_sorted = False
-            continue
+        elif operation == "D 1":
+            # Pop maximum
+            pop(max_heap, element_counter, -1)
 
-        # 여기에 도달했다면 Operation은 D이다.
-        if not values:
-            continue
+        elif operation == "D -1":
+            # Pop minimum
+            pop(min_heap, element_counter, 1)
 
-        if not is_sorted:
-            values.sort()
-            is_sorted = True
-
-        if value == "1":
-            values.pop()
         else:
-            values.pop(0)
+            # should not reach here
+            raise Exception
 
-    values.sort()
+    maximum = pop(max_heap, element_counter, -1)
+    element_counter[maximum] += 1
+    minimum = pop(min_heap, element_counter, 1)
 
-    return [values[-1], values[0]] if values else [0, 0]
+    return [maximum, minimum]
