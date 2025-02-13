@@ -9,29 +9,53 @@ class TreeType(Enum):
 
 
 def get_tree_type(node, parent, connections, tree_types):
-    if (node, parent) not in tree_types:
+    stack = [(node, parent)]
+
+    while stack:
         # 현재 노드가 (역)홀수/짝수 노드이고,
         # 이 노드의 각 children을 root로 하는 subtree가 모두 (역)홀짝 트리이면
         # tree_type[(node, parent)]는 (역)홀짝 트리이다.
-        children = connections[node] - set([parent])
-        if node % 2 == len(children) % 2:  # odd/even node
-            if all(
-                get_tree_type(child, node, connections, tree_types)
-                == TreeType.ODD_EVEN
-                for child in children
-            ):
-                tree_types[(node, parent)] = TreeType.ODD_EVEN
+        current_node, parent_node = stack[-1]
+        if (current_node, parent_node) in tree_types:
+            stack.pop()
+            continue
+
+        children = connections[current_node] - set([parent_node])
+
+        # Leaf Node의 Tree Type을 계산 해 놓는다.
+        if len(children) == 0:  # Leaf node
+            if current_node % 2 == 0:
+                tree_types[(current_node, parent_node)] = TreeType.ODD_EVEN
             else:
-                tree_types[(node, parent)] = TreeType.NONE
-        else:  # reversed odd/even node
-            if all(
-                get_tree_type(child, node, connections, tree_types)
-                == TreeType.REVERSED
-                for child in children
-            ):
-                tree_types[(node, parent)] = TreeType.REVERSED
+                tree_types[(current_node, parent_node)] = TreeType.REVERSED
+        else:
+            # Leaf Nodes는 모두 타입이 확인되었음을 가정하고, 현 노드와 자식 노드들의 타입을 확인한다.
+            if all((child, current_node) in tree_types for child in children):
+                stack.pop()
+                if current_node % 2 == len(children) % 2:
+                    if all(
+                        tree_types[(child, current_node)] == TreeType.ODD_EVEN
+                        for child in children
+                    ):
+                        tree_types[
+                            (current_node, parent_node)
+                        ] = TreeType.ODD_EVEN
+                    else:
+                        tree_types[(current_node, parent_node)] = TreeType.NONE
+                else:
+                    if all(
+                        tree_types[(child, current_node)] == TreeType.REVERSED
+                        for child in children
+                    ):
+                        tree_types[
+                            (current_node, parent_node)
+                        ] = TreeType.REVERSED
+                    else:
+                        tree_types[(current_node, parent_node)] = TreeType.NONE
             else:
-                tree_types[(node, parent)] = TreeType.NONE
+                # 자식 노드 중 타입이 확인되지 않은 노드가 있다면 stack에 추가한다.
+                for child in children:
+                    stack.append((child, current_node))
 
     return tree_types[(node, parent)]
 
