@@ -34,9 +34,9 @@ def dijkstra(n, distance_graph, origin):
                 distance_to_next_destination_from_origin
                 < distances[next_destination]
             ):
-                distances[
-                    next_destination
-                ] = distance_to_next_destination_from_origin
+                distances[next_destination] = (
+                    distance_to_next_destination_from_origin
+                )
                 heapq.heappush(
                     priority_queue,
                     (

@@ -37,9 +37,9 @@ def get_tree_type(node, parent, connections, tree_types):
                         tree_types[(child, current_node)] == TreeType.ODD_EVEN
                         for child in children
                     ):
-                        tree_types[
-                            (current_node, parent_node)
-                        ] = TreeType.ODD_EVEN
+                        tree_types[(current_node, parent_node)] = (
+                            TreeType.ODD_EVEN
+                        )
                     else:
                         tree_types[(current_node, parent_node)] = TreeType.NONE
                 else:
@@ -47,9 +47,9 @@ def get_tree_type(node, parent, connections, tree_types):
                         tree_types[(child, current_node)] == TreeType.REVERSED
                         for child in children
                     ):
-                        tree_types[
-                            (current_node, parent_node)
-                        ] = TreeType.REVERSED
+                        tree_types[(current_node, parent_node)] = (
+                            TreeType.REVERSED
+                        )
                     else:
                         tree_types[(current_node, parent_node)] = TreeType.NONE
             else:
