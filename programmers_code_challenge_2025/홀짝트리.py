@@ -1,74 +1,67 @@
 from collections import defaultdict
+from enum import Enum
 
 
-def get_tree_type(node, parent, connections, tree_types):
-    stack = [(node, parent)]
+class NodeType(Enum):
+    ODD_EVEN = 0
+    REVERSED = 1
 
-    while stack:
-        # 현재 노드가 (역)홀수/짝수 노드이고,
-        # 이 노드의 각 children을 root로 하는 subtree가 모두 (역)홀짝 트리이면
-        # tree_type[(node, parent)]는 (역)홀짝 트리이다.
-        current_node, parent_node = stack.pop()
-        if (current_node, parent_node) in tree_types:
-            continue
 
-        children = connections[current_node] - set([parent_node])
+class TreeType(Enum):
+    ODD_EVEN = 0
+    REVERSED = 1
+    NONE = 2
 
-        # Leaf Node의 Tree Type을 계산 해 놓는다.
-        if len(children) == 0:  # Leaf node
-            if current_node % 2 == 0:
-                tree_types[(current_node, parent_node)] = 0  # 홀짝트리
-            else:
-                tree_types[(current_node, parent_node)] = 1  # 역홀짝트리
-        else:
-            # Leaf Nodes는 모두 타입이 확인되었음을 가정하고, 현 노드와 자식 노드들의 타입을 확인한다.
-            if all((child, current_node) in tree_types for child in children):
-                if current_node % 2 == len(children) % 2:
-                    if all(
-                        tree_types[(child, current_node)] == 0
-                        for child in children
-                    ):
-                        tree_types[(current_node, parent_node)] = 0
-                    else:
-                        tree_types[(current_node, parent_node)] = 2  # 타입 없음
-                else:
-                    if all(
-                        tree_types[(child, current_node)] == 1
-                        for child in children
-                    ):
-                        tree_types[(current_node, parent_node)] = 1
-                    else:
-                        tree_types[(current_node, parent_node)] = 2
-            else:
-                # 현재 노드를 root로 하는 트리의 타입은 아직 알 수 없다.
-                stack.append((current_node, parent_node))
-                # 자식 노드 중 타입이 확인되지 않은 노드가 있다면 stack에 추가한다.
-                for child in children:
-                    if (child, current_node) not in tree_types:
-                        stack.append((child, current_node))
 
-    return tree_types[(node, parent)]
+tree_types = (TreeType.ODD_EVEN, TreeType.REVERSED, TreeType.NONE)
+
+
+def get_tree_type(node, connections, root_node_type, node_type_if_not_root):
+    # TODO: DFS? deque로 변환하는 로드를 줄여야 할 지도.
+    children = connections[node] - set([node])
+    visited = set([node])
+    while children:
+        if any(
+            node_type_if_not_root[child] != root_node_type
+            for child in children
+        ):
+            return TreeType.NONE
+
+        visited |= children
+
+        next_children = set()
+        for child in children:
+            next_children |= connections[child]
+
+        children = next_children - visited
+
+    return tree_types[root_node_type.value]
 
 
 def solution(nodes, edges):
-    """
-    문제의 제약조건에 의해 O(n^2)가 되면 시간초과가 예상된다.
-    - (역)홀짝 트리의 갯수를 알기 위해서는 일단 모든 node를 한 차례는 순회하며 해당여부를 판단해야 한다.
-    - 하지만, 매번 전체 forest를 다시 탐색한다면 O(n^2)이 되어 시간초과이다.
-    ! Cycle은 없다고 가정하고 풀이를 진행 해 본다.
-    """
     connections = defaultdict(set)
     for edge in edges:
         left, right = edge
         connections[left].add(right)
         connections[right].add(left)
 
-    # Solve
-    answer = [0, 0, 0]  # 홀짝트리, 역홀짝트리, 타입없음
-    dummy = 0
-    tree_types = dict()  # key: (current node, parent node), value: TreeType
+    node_type_if_root = dict()
+    node_type_if_not_root = dict()
     for node in nodes:
-        tree_type = get_tree_type(node, dummy, connections, tree_types)
-        answer[tree_type] += 1
+        children = connections[node]
+        if node % 2 == len(children) % 2:
+            node_type_if_root[node] = NodeType.ODD_EVEN
+            node_type_if_not_root[node] = NodeType.REVERSED
+        else:
+            node_type_if_root[node] = NodeType.REVERSED
+            node_type_if_not_root[node] = NodeType.ODD_EVEN
+
+    answer = [0, 0, 0]  # 홀짝트리, 역홀짝트리, 타입없음
+    for node in nodes:
+        root_node_type = node_type_if_root[node]
+        tree_type = get_tree_type(
+            node, connections, root_node_type, node_type_if_not_root
+        )
+        answer[tree_type.value] += 1
 
     return answer[:2]
