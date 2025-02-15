@@ -1,41 +1,49 @@
-from collections import defaultdict
-from enum import Enum
+from collections import defaultdict, deque
 
 
-class NodeType(Enum):
-    ODD_EVEN = 0
-    REVERSED = 1
+def calc_tree_types(queue, remaining_nodes, connections):
+    # 값이 홀/짝인 노드
+    odd_value_nodes = set()
+    even_value_nodes = set()
 
+    # 연결된 노드의 갯수가 홀/짝인 노드
+    odd_neighbors = set()
+    even_neighbors = set()
 
-class TreeType(Enum):
-    ODD_EVEN = 0
-    REVERSED = 1
-    NONE = 2
+    while queue:
+        node = queue.popleft()
+        if node in odd_value_nodes or node in even_value_nodes:
+            continue
 
+        if node % 2 != 0:
+            odd_value_nodes.add(node)
+        else:
+            even_value_nodes.add(node)
 
-tree_types = (TreeType.ODD_EVEN, TreeType.REVERSED, TreeType.NONE)
+        neighbors = connections[node]
+        if len(neighbors) % 2 != 0:
+            odd_neighbors.add(node)
+        else:
+            even_neighbors.add(node)
 
+        for n in neighbors:
+            queue.append(n)
 
-def get_tree_type(node, connections, root_node_type, node_type_if_not_root):
-    # TODO: DFS? deque로 변환하는 로드를 줄여야 할 지도.
-    children = connections[node] - set([node])
-    visited = set([node])
-    while children:
-        if any(
-            node_type_if_not_root[child] != root_node_type
-            for child in children
-        ):
-            return TreeType.NONE
+    # Check odd/even
+    odd = odd_value_nodes & odd_neighbors
+    even = even_value_nodes & even_neighbors
 
-        visited |= children
+    # Check reversed odd/even
+    reversed_odd = odd_value_nodes & even_neighbors
+    reversed_even = even_value_nodes & odd_neighbors
 
-        next_children = set()
-        for child in children:
-            next_children |= connections[child]
+    # Check checked nodes
+    remaining_nodes -= odd_value_nodes | even_value_nodes
 
-        children = next_children - visited
-
-    return tree_types[root_node_type.value]
+    return [
+        1 if len(odd) + len(even) == 1 else 0,  # 홀짝 트리
+        1 if len(reversed_odd) + len(reversed_even) == 1 else 0,  # 역홀짝트리
+    ]
 
 
 def solution(nodes, edges):
@@ -45,23 +53,14 @@ def solution(nodes, edges):
         connections[left].add(right)
         connections[right].add(left)
 
-    node_type_if_root = dict()
-    node_type_if_not_root = dict()
-    for node in nodes:
-        children = connections[node]
-        if node % 2 == len(children) % 2:
-            node_type_if_root[node] = NodeType.ODD_EVEN
-            node_type_if_not_root[node] = NodeType.REVERSED
-        else:
-            node_type_if_root[node] = NodeType.REVERSED
-            node_type_if_not_root[node] = NodeType.ODD_EVEN
-
-    answer = [0, 0, 0]  # 홀짝트리, 역홀짝트리, 타입없음
-    for node in nodes:
-        root_node_type = node_type_if_root[node]
-        tree_type = get_tree_type(
-            node, connections, root_node_type, node_type_if_not_root
+    answer = [0, 0]  # 홀짝트리, 역홀짝트리
+    remaining_nodes = set(nodes)
+    while remaining_nodes:
+        queue = deque([remaining_nodes.pop()])
+        count_odd_even, count_reversed = calc_tree_types(
+            queue, remaining_nodes, connections
         )
-        answer[tree_type.value] += 1
+        answer[0] += count_odd_even
+        answer[1] += count_reversed
 
-    return answer[:2]
+    return answer
