@@ -99,6 +99,9 @@ from programmers_code_challenge_2025 import solution_count_server_scale_out
             1,
             12,
         ],
+        [[i for i in range(24)], 1, 24, 23],
+        [[0 for _ in range(24)], 5, 5, 0],
+        [[1000 for _ in range(24)], 100, 5, 50],
     ],
 )
 def test_count_servers_scaled_out(players, m, k, expected):
