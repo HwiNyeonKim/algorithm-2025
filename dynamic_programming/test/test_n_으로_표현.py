@@ -8,6 +8,7 @@ from dynamic_programming import express_with_n
     [
         [5, 12, 4],
         [2, 11, 3],
+        [7, 7, 1],
     ],
 )
 def test_express_with_n(n, number, expected):
