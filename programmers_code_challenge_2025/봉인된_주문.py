@@ -33,4 +33,14 @@ def get_index(spell: str):
 
 
 def solution(n, bans):
-    return ""
+    # 1. index <-> spell 상호 변환 function 정의 및 구현
+    # 2. bans -> banned spell의 index 계산
+    # 3. n보다 작은 index를 가지는 banned spell의 수 계산
+    # 4. func(n + 3의 결과)를 return
+    banned_indices = [get_index(ban) for ban in bans]
+    banned_indices.sort()
+    for banned_index in banned_indices:
+        if banned_index <= n:
+            n += 1
+
+    return get_spell(n)
