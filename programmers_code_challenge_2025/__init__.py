@@ -9,5 +9,5 @@ __all__ = [
     "solution_odd_even_tree",
     "solution_count_server_scale_out",
     "solution_perfect_crime",
-    "soluition_sealed_spell",
+    "solution_sealed_spell",
 ]
