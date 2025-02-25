@@ -1,6 +1,6 @@
 import pytest
 
-from stack_and_queue import solution_3
+from ..올바른_괄호 import solution
 
 
 @pytest.mark.parametrize(
@@ -13,5 +13,5 @@ from stack_and_queue import solution_3
     ],
 )
 def test_올바른_괄호(s, expected):
-    answer = solution_3(s)
+    answer = solution(s)
     assert answer == expected

@@ -1,6 +1,6 @@
 import pytest
 
-from 연습문제 import solution_4
+from ..연속_펄스_부분_수열의_합 import solution
 
 
 @pytest.mark.parametrize(
@@ -11,4 +11,4 @@ from 연습문제 import solution_4
     ],
 )
 def test_연속_펄스_부분_수열의_합(sequence, expected):
-    assert solution_4(sequence) == expected
+    assert solution(sequence) == expected

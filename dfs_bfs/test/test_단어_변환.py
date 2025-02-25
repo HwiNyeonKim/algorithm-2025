@@ -1,6 +1,6 @@
 import pytest
 
-from dfs_bfs import solution_word_transform
+from ..단어_변환 import solution
 
 
 @pytest.mark.parametrize(
@@ -11,5 +11,5 @@ from dfs_bfs import solution_word_transform
     ],
 )
 def test_word_transform(begin, target, words, expected):
-    answer = solution_word_transform(begin, target, words)
+    answer = solution(begin, target, words)
     assert answer == expected

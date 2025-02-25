@@ -1,6 +1,6 @@
 import pytest
 
-from programmers_code_challenge_2025 import solution_count_server_scale_out
+from ..서버_증설_횟수 import solution
 
 
 @pytest.mark.parametrize(
@@ -105,5 +105,5 @@ from programmers_code_challenge_2025 import solution_count_server_scale_out
     ],
 )
 def test_count_servers_scaled_out(players, m, k, expected):
-    answer = solution_count_server_scale_out(players, m, k)
+    answer = solution(players, m, k)
     assert answer == expected

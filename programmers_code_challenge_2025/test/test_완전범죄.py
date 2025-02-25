@@ -1,6 +1,6 @@
 import pytest
 
-from programmers_code_challenge_2025 import solution_perfect_crime
+from ..완전범죄 import solution
 
 
 @pytest.mark.parametrize(
@@ -13,5 +13,5 @@ from programmers_code_challenge_2025 import solution_perfect_crime
     ],
 )
 def test_perfect_crime(info, n, m, expected):
-    answer = solution_perfect_crime(info, n, m)
+    answer = solution(info, n, m)
     assert answer == expected

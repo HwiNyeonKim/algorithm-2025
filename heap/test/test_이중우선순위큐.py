@@ -1,6 +1,6 @@
 import pytest
 
-from heap import solution_double_priority_queue
+from ..이중우선순위큐 import solution
 
 
 @pytest.mark.parametrize(
@@ -28,5 +28,5 @@ from heap import solution_double_priority_queue
     ],
 )
 def test_double_priority_queue(operations, expected):
-    answer = solution_double_priority_queue(operations)
+    answer = solution(operations)
     assert answer == expected

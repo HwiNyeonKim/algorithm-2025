@@ -1,6 +1,6 @@
 import pytest
 
-from dynamic_programming import express_with_n
+from ..n_으로_표현 import solution
 
 
 @pytest.mark.parametrize(
@@ -12,5 +12,5 @@ from dynamic_programming import express_with_n
     ],
 )
 def test_express_with_n(n, number, expected):
-    answer = express_with_n(n, number)
+    answer = solution(n, number)
     assert answer == expected

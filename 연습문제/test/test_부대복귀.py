@@ -1,6 +1,6 @@
 import pytest
 
-from 연습문제 import solution_2
+from ..부대복귀 import solution
 
 
 @pytest.mark.parametrize(
@@ -17,5 +17,5 @@ from 연습문제 import solution_2
     ],
 )
 def test_부대복귀(n, roads, sources, destination, expected):
-    answer = solution_2(n, roads, sources, destination)
+    answer = solution(n, roads, sources, destination)
     assert answer == expected

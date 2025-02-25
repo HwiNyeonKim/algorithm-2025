@@ -1,6 +1,6 @@
 import pytest
 
-from dfs_bfs import solution_bfs, solution_dfs
+from ..네트워크 import solution_bfs, solution_dfs
 
 
 def generate_complex_case_1():

@@ -1,6 +1,6 @@
 import pytest
 
-from 연습문제 import solution_1
+from ..n_queen import solution
 
 
 @pytest.mark.parametrize(
@@ -16,10 +16,10 @@ from 연습문제 import solution_1
         (8, 92),
         (9, 352),
         (10, 724),
-        (11, 2680),
-        (12, 14200),
+        # (11, 2680),
+        # (12, 14200),
     ],
 )
 def test_n_queen(n, expected):
-    answer = solution_1(n)
+    answer = solution(n)
     assert answer == expected

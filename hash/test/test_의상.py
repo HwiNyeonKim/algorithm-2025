@@ -1,6 +1,6 @@
 import pytest
 
-from hash import solution_2
+from ..의상 import solution
 
 
 @pytest.mark.parametrize(
@@ -25,5 +25,5 @@ from hash import solution_2
     ],
 )
 def test_의상(clothes, expected):
-    answer = solution_2(clothes)
+    answer = solution(clothes)
     assert answer == expected

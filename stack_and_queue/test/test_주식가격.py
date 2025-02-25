@@ -1,6 +1,6 @@
 import pytest
 
-from stack_and_queue import solution_5
+from ..주식가격 import solution
 
 
 @pytest.mark.parametrize(
@@ -29,5 +29,5 @@ from stack_and_queue import solution_5
     ],
 )
 def test_주식가격(prices, expected):
-    answer = solution_5(prices)
+    answer = solution(prices)
     assert answer == expected

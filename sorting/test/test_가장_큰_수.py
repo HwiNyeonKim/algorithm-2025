@@ -1,6 +1,6 @@
 import pytest
 
-from sorting import solution_1
+from ..가장_큰_수 import solution
 
 
 @pytest.mark.parametrize(
@@ -12,6 +12,6 @@ from sorting import solution_1
     ],
 )
 def test_가장_큰_수(numbers, expected):
-    answer = solution_1(numbers)
+    answer = solution(numbers)
 
     assert answer == expected

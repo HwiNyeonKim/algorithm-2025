@@ -1,6 +1,6 @@
 import pytest
 
-from programmers_code_challenge_2025 import solution_odd_even_tree
+from ..홀짝트리 import solution
 
 
 @pytest.mark.parametrize(
@@ -24,5 +24,5 @@ from programmers_code_challenge_2025 import solution_odd_even_tree
     ],
 )
 def test_odd_even_tree(nodes, edges, expected):
-    answer = solution_odd_even_tree(nodes, edges)
+    answer = solution(nodes, edges)
     assert answer == expected

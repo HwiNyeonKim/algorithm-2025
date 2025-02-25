@@ -1,6 +1,6 @@
 import pytest
 
-from heap import solution_disk_controller
+from ..디스크_컨트롤러 import solution
 
 
 @pytest.mark.parametrize(
@@ -17,5 +17,5 @@ from heap import solution_disk_controller
     ],
 )
 def test_disk_controller(jobs, expected):
-    answer = solution_disk_controller(jobs)
+    answer = solution(jobs)
     assert answer == expected

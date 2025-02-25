@@ -1,6 +1,6 @@
 import pytest
 
-from dev_matching_2021 import solution_1
+from ..다단계_칫솔_판매 import solution
 
 
 @pytest.mark.parametrize(
@@ -41,7 +41,7 @@ from dev_matching_2021 import solution_1
     ],
 )
 def test_다단계_칫솔_판매(enroll, referral, seller, amount, expected):
-    answer = solution_1(enroll, referral, seller, amount)
+    answer = solution(enroll, referral, seller, amount)
 
     from devtools import debug
 

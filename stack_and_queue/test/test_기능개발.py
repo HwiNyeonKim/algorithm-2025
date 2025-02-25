@@ -1,6 +1,6 @@
 import pytest
 
-from stack_and_queue import solution_2
+from ..기능개발 import solution
 
 
 @pytest.mark.parametrize(
@@ -11,5 +11,5 @@ from stack_and_queue import solution_2
     ],
 )
 def test_기능개발(progresses, speeds, expected):
-    answer = solution_2(progresses, speeds)
+    answer = solution(progresses, speeds)
     assert answer == expected

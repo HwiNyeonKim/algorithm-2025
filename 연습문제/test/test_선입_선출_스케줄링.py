@@ -1,6 +1,6 @@
 import pytest
 
-from 연습문제 import solution_5
+from ..선입_선출_스케줄링 import solution
 
 
 @pytest.mark.parametrize(
@@ -16,5 +16,5 @@ from 연습문제 import solution_5
     ],
 )
 def test_선입_선출_스케줄링(n, cores, expected):
-    answer = solution_5(n, cores)
+    answer = solution(n, cores)
     assert answer == expected

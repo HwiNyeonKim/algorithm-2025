@@ -1,6 +1,6 @@
 import pytest
 
-from hash import solution_3
+from ..베스트앨범 import solution
 
 
 @pytest.mark.parametrize(
@@ -16,5 +16,5 @@ from hash import solution_3
     ],
 )
 def test_베스트앨범(genres, plays, expected):
-    answer = solution_3(genres, plays)
+    answer = solution(genres, plays)
     assert answer == expected

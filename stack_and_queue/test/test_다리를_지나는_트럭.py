@@ -1,6 +1,6 @@
 import pytest
 
-from stack_and_queue import solution_6
+from ..다리를_지나는_트럭 import solution
 
 
 @pytest.mark.parametrize(
@@ -12,5 +12,5 @@ from stack_and_queue import solution_6
     ],
 )
 def test_다리를_지나는_트럭(bridge_length, weight, truck_weights, expected):
-    answer = solution_6(bridge_length, weight, truck_weights)
+    answer = solution(bridge_length, weight, truck_weights)
     assert answer == expected

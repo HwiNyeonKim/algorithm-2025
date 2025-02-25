@@ -1,6 +1,6 @@
 import pytest
 
-from programmers_code_challenge_2025 import solution_forklift_and_crane
+from ..지게차와_크레인 import solution
 
 
 @pytest.mark.parametrize(
@@ -15,5 +15,5 @@ from programmers_code_challenge_2025 import solution_forklift_and_crane
     ],
 )
 def test_forklift_and_crane(storage, requests, expected):
-    answer = solution_forklift_and_crane(storage, requests)
+    answer = solution(storage, requests)
     assert answer == expected

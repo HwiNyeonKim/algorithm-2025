@@ -1,6 +1,6 @@
 import pytest
 
-from stack_and_queue import solution_1
+from ..같은_숫자는_싫어 import solution
 
 
 @pytest.mark.parametrize(
@@ -12,6 +12,6 @@ from stack_and_queue import solution_1
     ],
 )
 def test_같은_숫자는_싫어(arr, expected):
-    answer = solution_1(arr)
+    answer = solution(arr)
 
     assert answer == expected

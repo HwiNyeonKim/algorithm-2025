@@ -1,6 +1,6 @@
 import pytest
 
-from hash import solution_1
+from ..전화번호_목록 import solution
 
 
 @pytest.mark.parametrize(
@@ -12,5 +12,5 @@ from hash import solution_1
     ],
 )
 def test_전화번호_목록(phone_book, expected):
-    answer = solution_1(phone_book)
+    answer = solution(phone_book)
     assert answer == expected

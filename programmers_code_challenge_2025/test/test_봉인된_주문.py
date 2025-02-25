@@ -1,6 +1,6 @@
 import pytest
 
-from programmers_code_challenge_2025 import solution_sealed_spell
+from ..봉인된_주문 import solution
 
 
 @pytest.mark.parametrize(
@@ -15,5 +15,5 @@ from programmers_code_challenge_2025 import solution_sealed_spell
     ],
 )
 def test_sealed_spell(n, bans, expected):
-    answer = solution_sealed_spell(n, bans)
+    answer = solution(n, bans)
     assert answer == expected
