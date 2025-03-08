@@ -3,7 +3,7 @@ from math import ceil, floor, sqrt
 
 def solution(r1, r2):
     # 1사분면 위의 두 원 사이의 점들을 전부 찾은 후 4배를 해 준다
-    points_on_first_quardrant = 0
+    points = 0
 
     # y축 상의 점들까지 함께 고려한다.
     for y in range(1, r2 + 1):
@@ -14,8 +14,6 @@ def solution(r1, r2):
         if x_min > x_max:
             break
 
-        points_on_first_quardrant += x_max - x_min + 1
+        points += x_max - x_min + 1
 
-    points_on_first_quardrant *= 4
-
-    return points_on_first_quardrant
+    return 4 * points
