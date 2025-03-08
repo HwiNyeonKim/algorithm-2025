@@ -11,9 +11,6 @@ def solution(r1, r2):
         x_min = ceil(sqrt(r1**2 - y**2)) if y <= r1 else 0
         x_max = floor(sqrt(r2**2 - y**2))
 
-        if x_min > x_max:
-            break
-
         points += x_max - x_min + 1
 
     return 4 * points
