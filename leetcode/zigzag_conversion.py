@@ -5,10 +5,10 @@ def convert(s: str, num_rows: int) -> str:
     # LeetCode 에서는 numRows로 되어있으나 Python에는 snake_case가 알맞아 보인다.
 
     # i-th column에 대하여...
-    # 1. t % num_rows == 0 인 경우
+    # 1. t % (num_rows - 1) == 0 인 경우
     #   - num_rows 만큼 column에 채우기
-    # 2. t % num_rows != 0 인 경우 (assume value = t % num_rows)
-    #   - num_rows - value 번째 row에만 한 글자를 채운다
+    # 2. t % (num_rows - 1) != 0 인 경우 (assume value = t % (num_rows - 1))
+    #   - num_rows - value - 1번째 row에만 한 글자를 채운다
     if num_rows == 1:
         return s
 
