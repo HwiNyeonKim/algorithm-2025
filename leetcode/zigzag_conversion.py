@@ -7,7 +7,7 @@ def convert(s: str, num_rows: int) -> str:
     # i-th column에 대하여...
     # 1. i % (num_rows - 1) == 0 인 경우
     #   - num_rows 만큼 column에 채우기
-    # 2. i % (num_rows - 1) != 0 인 경우 (assume value = t % (num_rows - 1))
+    # 2. i % (num_rows - 1) != 0 인 경우 (assume value = i % (num_rows - 1))
     #   - num_rows - value - 1번째 row에만 한 글자를 채운다
     if num_rows == 1:
         return s
