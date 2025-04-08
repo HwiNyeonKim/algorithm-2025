@@ -6,19 +6,25 @@ def three_sum(nums):
         List[List[int]]
     """
 
-    # 1. Naive solution: O(N^3)
-    #   - Expect: Timed Out
+    # 2. Fix a number: nums[i]
+    #   - Then, find two numebers satisfies sum of both numbers to be -nums[i]
     nums.sort()
     triplets = set()
     length = len(nums)
     for i in range(length - 2):
-        for j in range(i + 1, length - 1):
-            for k in range(j + 1, length):
-                a = nums[i]
-                b = nums[j]
-                c = nums[k]
-                if a + b + c == 0:
-                    triplets.add((a, b, c))
+        left = i + 1
+        right = length - 1
+
+        while left < right:
+            sum_ = nums[i] + nums[left] + nums[right]
+            if sum_ == 0:
+                triplets.add((nums[i], nums[left], nums[right]))
+                left += 1
+                right -= 1
+            elif sum_ < 0:
+                left += 1
+            else:
+                right -= 1
 
     answer = [list(entity) for entity in triplets]
     answer.sort(key=lambda x: (x[0], x[1], x[2]))
