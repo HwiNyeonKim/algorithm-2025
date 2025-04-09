@@ -7,11 +7,17 @@ def remove_duplicates(nums):
     Returns:
         int
     """
-    duplicates_removed = list(set(nums))
-    unique_count = len(duplicates_removed)
+    prev = float("-inf")
+    ptr = 0  # index
+    current_index = 0
 
-    duplicates_removed.sort()
-    for i, value in enumerate(duplicates_removed):
-        nums[i] = value
+    while current_index < len(nums):
+        current_value = nums[current_index]
+        if current_value != prev:
+            nums[ptr] = current_value
+            prev = current_value
+            ptr += 1
 
-    return unique_count
+        current_index += 1
+
+    return ptr
