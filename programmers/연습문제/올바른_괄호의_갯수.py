@@ -1,22 +1,4 @@
-def is_correct(candidate):
-    """Check given parenthesis candidate is correct or not
-
-    Args:
-        candidate (List[str]): 올바른지 판별하려는 괄호쌍 후보
-    Returns:
-        Bool: 올바른 괄호쌍이면 True, 아니면 False
-    """
-    stack = list()
-    for char in candidate:
-        if char == "(":
-            stack.append(char)
-        else:
-            try:
-                stack.pop()
-            except IndexError:
-                return False
-
-    return len(stack) == 0
+from itertools import product
 
 
 def solution(n):
@@ -27,24 +9,23 @@ def solution(n):
     Returns:
         int: 만들 수 있는 올바른 괄호 쌍의 갯수
     """
+    dp = [set(), set(["()"])]  # index 사용 편의성을 위해 index = 0도 추가
+
     if n < 2:
-        return n
+        return len(dp[n])
 
-    parenthesis = ["(", ")"]
+    while len(dp) < n + 1:
+        complete_parenthesis = set()
+        for prev_result in dp[len(dp) - 1]:
+            complete_parenthesis.add(f"({prev_result})")
 
-    candidates = [""]
+        for i in range(1, len(dp)):
+            left = dp[i]
+            right = dp[len(dp) - i]
 
-    for _ in range(2 * n):
-        next_candidates = list()
-        for candidate in candidates:
-            for paren in parenthesis:
-                next_candidates.append(candidate + paren)
+            for candidate in product(left, right):
+                complete_parenthesis.add("".join(candidate))
 
-        candidates = next_candidates
+        dp.append(complete_parenthesis)
 
-    count = 0
-    for candidate in candidates:
-        if is_correct(candidate):
-            count += 1
-
-    return count
+    return len(dp[n])
