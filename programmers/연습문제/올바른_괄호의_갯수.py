@@ -1,6 +1,3 @@
-from itertools import permutations
-
-
 def is_correct(candidate):
     """Check given parenthesis candidate is correct or not
 
@@ -11,7 +8,7 @@ def is_correct(candidate):
     """
     stack = list()
     for char in candidate:
-        if char == '(':
+        if char == "(":
             stack.append(char)
         else:
             try:
@@ -30,14 +27,20 @@ def solution(n):
     Returns:
         int: 만들 수 있는 올바른 괄호 쌍의 갯수
     """
-    # 1. Backtracking
-    # 2. 2**14 = 약 16,000개로 Brute Force로도 풀이가 가능할 듯.
+    if n < 2:
+        return n
 
-    # * 일단 먼저 BruteForce로 풀어본다.
-    remaining = ['('] * n + [')'] * n
-    candidates = set()
-    for candidate in permutations(remaining, r=2 * n):
-        candidates.add(candidate)
+    parenthesis = ["(", ")"]
+
+    candidates = [""]
+
+    for _ in range(2 * n):
+        next_candidates = list()
+        for candidate in candidates:
+            for paren in parenthesis:
+                next_candidates.append(candidate + paren)
+
+        candidates = next_candidates
 
     count = 0
     for candidate in candidates:
