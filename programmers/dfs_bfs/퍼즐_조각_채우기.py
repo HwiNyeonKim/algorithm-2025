@@ -92,6 +92,7 @@ def solution(game_board, table):
             [shift_to_origin(rotated) for rotated in get_rotated_blocks(block)]
         )
 
+    # 가장 많은 영역을 채우려면, 주어진 문제 조건 하에서 가장 큰 영역부터 채워야 한다.
     shifted_empty_areas.sort(key=lambda x: len(x), reverse=True)
 
     count = 0
