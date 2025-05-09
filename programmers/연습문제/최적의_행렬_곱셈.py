@@ -1,24 +1,18 @@
 def solution(matrix_sizes):
-    sizes = [
-        matrix_size[0] for matrix_size in matrix_sizes[1:]
-    ]
-    first = matrix_sizes[0][0]
-    last = matrix_sizes[-1][1]
-    # [[5, 3], [3, 10], [10, 6]] -> [5, 3, 10, 6]으로 serialize
-    # 그런데, 첫 값과 마지막 값은 결국 최종 계산에 반드시 들어가야 하므로 따로 빼둔다.
-    # 즉, 반복문 내에서 계산에 이용되는 serialized values는 [3, 10]
+    # i-j 까지의 행렬곱셈을 수행했을 때의 곱셈 연산 횟수
+    dp = [[0] * len(matrix_sizes) for _ in range(len(matrix_sizes))]
 
-    # sizes에서 최댓값을 찾아, 그 최댓값을 가지는 행렬끼리 먼저 곱한다.
+    for matrix_count in range(1, len(matrix_sizes)):
+        for i in range(len(matrix_sizes) - matrix_count):
+            j = i + matrix_count
+            dp[i][j] = float("inf")  # type: ignore
+            for k in range(i, j):  # middle
+                row = matrix_sizes[i][0]
+                middle = matrix_sizes[k][1]
+                column = matrix_sizes[j][1]
 
-    count = 0
-    while sizes:
-        index = sizes.index(max(sizes))
+                dp[i][j] = min(
+                    dp[i][j], dp[i][k] + row * middle * column + dp[k + 1][j]
+                )
 
-        row = first if index == 0 else sizes[index - 1]
-        middle = sizes[index]
-        column = last if index == len(sizes) - 1 else sizes[index + 1]
-        count += row * middle * column
-
-        sizes.pop(index)
-
-    return count
+    return dp[0][-1]
