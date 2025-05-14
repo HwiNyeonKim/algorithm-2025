@@ -23,7 +23,7 @@ def solution(n, stations, w):
     count = 0
     coverage = 2 * w + 1
     start = 1
-    for (covered_start, covered_end) in already_covered:
+    for covered_start, covered_end in already_covered:
         if covered_end > start:
             count += math.ceil((covered_start - start) / coverage)
 
