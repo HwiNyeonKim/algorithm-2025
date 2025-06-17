@@ -20,31 +20,25 @@ def solution(h1, m1, s1, h2, m2, s2):
         seconds = current % 60
 
         # 초침 sweep 범위 계산
-        second_hand_from = seconds * 6
-        second_hand_to = (seconds + 1) * 6
+        sec_from = seconds * 6
+        sec_to = (seconds + 1) * 6
 
         # 분침 sweep 범위 계산
-        minutes_hand_from = minutes * 6 + seconds * 0.1
-        minutes_hand_to = minutes * 6 + (seconds + 1) * 0.1
+        min_from = minutes * 6 + seconds * 0.1
+        min_to = minutes * 6 + (seconds + 1) * 0.1
 
         # 초침과 분침이 겹치는 경우 카운트
         # 단, 초침의 이동이 종료될 때 겹치는 경우는 카운트하지 않고,
         # 초침의 이동이 시작될 때 겹치는 경우만 카운트한다.
-        if (
-            second_hand_from <= minutes_hand_from
-            and minutes_hand_to < second_hand_to
-        ):
+        if sec_from <= min_from and min_to < sec_to:
             count += 1
 
         # 시침 sweep 범위 계산
-        hours_hand_from = hours * 30 + minutes * 0.5 + seconds * (1 / 120)
-        hours_hand_to = hours * 30 + minutes * 0.5 + (seconds + 1) * (1 / 120)
+        hours_from = hours * 30 + minutes * 0.5 + seconds * (1 / 120)
+        hours_to = hours * 30 + minutes * 0.5 + (seconds + 1) * (1 / 120)
 
         # 초침과 시침이 겹치는 경우 카운트
-        if (
-            second_hand_from <= hours_hand_from
-            and hours_hand_to < second_hand_to
-        ):
+        if sec_from <= hours_from and hours_to < sec_to:
             count += 1
 
         current += 1
