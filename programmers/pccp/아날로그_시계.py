@@ -25,7 +25,7 @@ def solution(h1, m1, s1, h2, m2, s2):
 
         # 분침 sweep 범위 계산
         min_from = minutes * 6 + seconds * 0.1
-        min_to = minutes * 6 + (seconds + 1) * 0.1
+        min_to = min_from + 0.1
 
         # 초침과 분침이 겹치는 경우 카운트
         # 단, 초침의 이동이 종료될 때 겹치는 경우는 카운트하지 않고,
@@ -35,7 +35,7 @@ def solution(h1, m1, s1, h2, m2, s2):
 
         # 시침 sweep 범위 계산
         hours_from = hours * 30 + minutes * 0.5 + seconds * (1 / 120)
-        hours_to = hours * 30 + minutes * 0.5 + (seconds + 1) * (1 / 120)
+        hours_to = hours_from + 1 / 120
 
         # 초침과 시침이 겹치는 경우 카운트
         if sec_from <= hours_from and hours_to < sec_to:
